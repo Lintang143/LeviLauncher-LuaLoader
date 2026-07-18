@@ -1,10 +1,13 @@
 #pragma once
 
 #include <optional>
-
 #include "mod/Config.h"
-
 #include <pl/Mod.hpp>
+
+// Include header Lua agar compiler mengenali tipe data lua_State
+extern "C" {
+    #include "pl/lua.h"
+}
 
 namespace clange_me {
 
@@ -25,6 +28,9 @@ class ClangeMeMod {
     ll::mod::NativeMod &mSelf;
     ModConfig mConfig;
     std::optional<pl::config::ConfigFile<ModConfig>> mConfigFile;
+    
+    // --- TAMBAHKAN INI ---
+    lua_State* L; 
 };
 
 } // namespace clange_me
