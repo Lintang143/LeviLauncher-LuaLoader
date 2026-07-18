@@ -55,7 +55,7 @@ set(LEVI_PRELOADER_INCLUDE_DIR "${preloader_android_SOURCE_DIR}/include")
 # LUA STATIC LIBRARY COMPILATION (FIXED)
 # ==========================================
 # Target folder source file Lua yang ditarik dari FetchContent Preloader
-set(LUA_SRC_DIR "${preloader_android_SOURCE_DIR}/include/pl")
+set(LUA_SRC_DIR "${preloader_android_SOURCE_DIR}/include")
 
 # Deklarasi file .c secara eksplisit untuk mencegah error "No SOURCES given" di CI/CD
 set(LUA_SOURCES
