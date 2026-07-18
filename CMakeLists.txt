@@ -58,47 +58,47 @@ set(LEVI_PRELOADER_INCLUDE_DIR "${preloader_android_SOURCE_DIR}/include")
 set(LUA_SRC_DIR "${preloader_android_SOURCE_DIR}/include")
 
 # Deklarasi file .c secara eksplisit untuk mencegah error "No SOURCES given" di CI/CD
+# Definisikan semua source file Lua yang berada di dalam folder include milik Anda
 set(LUA_SOURCES
-    "${LUA_SRC_DIR}/lapi.c"
-    "${LUA_SRC_DIR}/lcode.c"
-    "${LUA_SRC_DIR}/lctype.c"
-    "${LUA_SRC_DIR}/ldebug.c"
-    "${LUA_SRC_DIR}/ldo.c"
-    "${LUA_SRC_DIR}/ldump.c"
-    "${LUA_SRC_DIR}/lfunc.c"
-    "${LUA_SRC_DIR}/lgc.c"
-    "${LUA_SRC_DIR}/llex.c"
-    "${LUA_SRC_DIR}/lmem.c"
-    "${LUA_SRC_DIR}/lobject.c"
-    "${LUA_SRC_DIR}/lopcodes.c"
-    "${LUA_SRC_DIR}/lparser.c"
-    "${LUA_SRC_DIR}/lstate.c"
-    "${LUA_SRC_DIR}/lstring.c"
-    "${LUA_SRC_DIR}/ltable.c"
-    "${LUA_SRC_DIR}/ltm.c"
-    "${LUA_SRC_DIR}/lundump.c"
-    "${LUA_SRC_DIR}/lvm.c"
-    "${LUA_SRC_DIR}/lzio.c"
-    # Core Libraries
-    "${LUA_SRC_DIR}/lauxlib.c"
-    "${LUA_SRC_DIR}/lbaselib.c"
-    "${LUA_SRC_DIR}/lcorolib.c"
-    "${LUA_SRC_DIR}/ldblib.c"
-    "${LUA_SRC_DIR}/liolib.c"
-    "${LUA_SRC_DIR}/lmathlib.c"
-    "${LUA_SRC_DIR}/lloadlib.c"
-    "${LUA_SRC_DIR}/loslib.c"
-    "${LUA_SRC_DIR}/lstrlib.c"
-    "${LUA_SRC_DIR}/ltablib.c"
-    "${LUA_SRC_DIR}/lutf8lib.c"
-    "${LUA_SRC_DIR}/linit.c"
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lapi.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lcode.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lctype.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ldebug.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ldo.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ldump.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lfunc.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lgc.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/llex.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lmem.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lobject.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lopcodes.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lparser.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lstate.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lstring.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ltable.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ltm.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lundump.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lvm.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lzio.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lauxlib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lbaselib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lcorolib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ldblib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/liolib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lmathlib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/loslib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lstrlib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/ltablib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lutf8lib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/lloadlib.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/include/linit.c
 )
 
-# Kompilasi internal Lua static library
+# Buat library static dari file-file di atas
 add_library(lua_static STATIC ${LUA_SOURCES})
 
-# Ekspos direktori header Lua ke target lain yang membutuhkannya
-target_include_directories(lua_static PUBLIC "${LUA_SRC_DIR}")
+# Beritahu compiler agar bisa menemukan file .h (header) di folder include tersebut
+target_include_directories(lua_static PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 # ==========================================
 
 if(NOT ANDROID)
