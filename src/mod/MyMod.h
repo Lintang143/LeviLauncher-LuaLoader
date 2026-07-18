@@ -6,7 +6,7 @@
 
 // Include header Lua agar compiler mengenali tipe data lua_State
 extern "C" {
-    #include "pl/lua.h"
+    #include "lua.h"
 }
 
 namespace clange_me {
