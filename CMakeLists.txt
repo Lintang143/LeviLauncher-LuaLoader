@@ -52,24 +52,52 @@ FetchContent_GetProperties(preloader_android)
 set(LEVI_PRELOADER_INCLUDE_DIR "${preloader_android_SOURCE_DIR}/include")
 
 # ==========================================
-# LUA STATIC LIBRARY COMPILATION
+# LUA STATIC LIBRARY COMPILATION (FIXED)
 # ==========================================
-# Ambil semua file source .c bawaan Lua di folder thirdparty/lua
-file(GLOB LUA_SOURCES 
-    "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/lua/*.c"
+# Target folder source file Lua yang ditarik dari FetchContent Preloader
+set(LUA_SRC_DIR "${preloader_android_SOURCE_DIR}/include/pl")
+
+# Deklarasi file .c secara eksplisit untuk mencegah error "No SOURCES given" di CI/CD
+set(LUA_SOURCES
+    "${LUA_SRC_DIR}/lapi.c"
+    "${LUA_SRC_DIR}/lcode.c"
+    "${LUA_SRC_DIR}/lctype.c"
+    "${LUA_SRC_DIR}/ldebug.c"
+    "${LUA_SRC_DIR}/ldo.c"
+    "${LUA_SRC_DIR}/ldump.c"
+    "${LUA_SRC_DIR}/lfunc.c"
+    "${LUA_SRC_DIR}/lgc.c"
+    "${LUA_SRC_DIR}/llex.c"
+    "${LUA_SRC_DIR}/lmem.c"
+    "${LUA_SRC_DIR}/lobject.c"
+    "${LUA_SRC_DIR}/lopcodes.c"
+    "${LUA_SRC_DIR}/lparser.c"
+    "${LUA_SRC_DIR}/lstate.c"
+    "${LUA_SRC_DIR}/lstring.c"
+    "${LUA_SRC_DIR}/ltable.c"
+    "${LUA_SRC_DIR}/ltm.c"
+    "${LUA_SRC_DIR}/lundump.c"
+    "${LUA_SRC_DIR}/lvm.c"
+    "${LUA_SRC_DIR}/lzio.c"
+    # Core Libraries
+    "${LUA_SRC_DIR}/lauxlib.c"
+    "${LUA_SRC_DIR}/lbaselib.c"
+    "${LUA_SRC_DIR}/lcorolib.c"
+    "${LUA_SRC_DIR}/ldblib.c"
+    "${LUA_SRC_DIR}/liolib.c"
+    "${LUA_SRC_DIR}/lmathlib.c"
+    "${LUA_SRC_DIR}/loslib.c"
+    "${LUA_SRC_DIR}/lstrlib.c"
+    "${LUA_SRC_DIR}/ltablib.c"
+    "${LUA_SRC_DIR}/lutf8lib.c"
+    "${LUA_SRC_DIR}/linit.c"
 )
 
-# Buang CLI wrappers lua.c dan luac.c agar tidak bentrok symbols main()
-list(REMOVE_ITEM LUA_SOURCES 
-    "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/lua/lua.c"
-    "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/lua/luac.c"
-)
-
-# Buat static library internal untuk dependency engine Lua
+# Kompilasi internal Lua static library
 add_library(lua_static STATIC ${LUA_SOURCES})
 
-# Daftarkan lokasi include directory milik Lua agar bisa diakses target lain
-target_include_directories(lua_static PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/lua")
+# Ekspos direktori header Lua ke target lain yang membutuhkannya
+target_include_directories(lua_static PUBLIC "${LUA_SRC_DIR}")
 # ==========================================
 
 if(NOT ANDROID)
@@ -170,7 +198,7 @@ target_link_libraries(${MOD_LIBRARY_NAME} PRIVATE
     Boost::pfr
     magic_enum::magic_enum
     fmt::fmt
-    lua_static  # <-- TAUTKAN INTERNAL LUA ENGINE DI SINI
+    lua_static  # <-- Menautkan mesin statis Lua untuk mematikan error undefined symbols
 )
 
 if(TARGET preloader)
