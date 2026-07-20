@@ -19,46 +19,7 @@ set(MOD_ICON "" CACHE STRING "Optional package-relative icon path, such as icon.
 # LUA STATIC LIBRARY COMPILATION (FIXED PATH SCOPE)
 # ==============================================================================
 # Mendefinisikan secara eksplisit seluruh source file C Lua dari folder include lokal
-set(LUA_SOURCES
-    ${PROJECT_SOURCE_DIR}/include/lapi.c
-    ${PROJECT_SOURCE_DIR}/include/lcode.c
-    ${PROJECT_SOURCE_DIR}/include/lctype.c
-    ${PROJECT_SOURCE_DIR}/include/ldebug.c
-    ${PROJECT_SOURCE_DIR}/include/ldo.c
-    ${PROJECT_SOURCE_DIR}/include/ldump.c
-    ${PROJECT_SOURCE_DIR}/include/lfunc.c
-    ${PROJECT_SOURCE_DIR}/include/lgc.c
-    ${PROJECT_SOURCE_DIR}/include/llex.c
-    ${PROJECT_SOURCE_DIR}/include/lmem.c
-    ${PROJECT_SOURCE_DIR}/include/lobject.c
-    ${PROJECT_SOURCE_DIR}/include/lopcodes.c
-    ${PROJECT_SOURCE_DIR}/include/lparser.c
-    ${PROJECT_SOURCE_DIR}/include/lstate.c
-    ${PROJECT_SOURCE_DIR}/include/lstring.c
-    ${PROJECT_SOURCE_DIR}/include/ltable.c
-    ${PROJECT_SOURCE_DIR}/include/ltm.c
-    ${PROJECT_SOURCE_DIR}/include/lundump.c
-    ${PROJECT_SOURCE_DIR}/include/lvm.c
-    ${PROJECT_SOURCE_DIR}/include/lzio.c
-    ${PROJECT_SOURCE_DIR}/include/lauxlib.c
-    ${PROJECT_SOURCE_DIR}/include/lbaselib.c
-    ${PROJECT_SOURCE_DIR}/include/lcorolib.c
-    ${PROJECT_SOURCE_DIR}/include/ldblib.c
-    ${PROJECT_SOURCE_DIR}/include/liolib.c
-    ${PROJECT_SOURCE_DIR}/include/lmathlib.c
-    ${PROJECT_SOURCE_DIR}/include/loslib.c
-    ${PROJECT_SOURCE_DIR}/include/lstrlib.c
-    ${PROJECT_SOURCE_DIR}/include/ltablib.c
-    ${PROJECT_SOURCE_DIR}/include/lutf8lib.c
-    ${PROJECT_SOURCE_DIR}/include/lloadlib.c
-    ${PROJECT_SOURCE_DIR}/include/linit.c
-)
 
-# Buat library static menggunakan path absolute root project utama
-add_library(lua_static STATIC ${LUA_SOURCES})
-
-# Ekspos directory include lokal agar file header Lua (.h) bisa diakses global
-target_include_directories(lua_static PUBLIC ${PROJECT_SOURCE_DIR}/include)
 # ==============================================================================
 
 include(FetchContent)
@@ -132,6 +93,48 @@ if(NOT DEFINED LEVI_PACKAGE_CONFIG_DIR)
     set(LEVI_PACKAGE_CONFIG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/config" CACHE PATH
         "Directory containing config.json and config.schema.json to package")
 endif()
+
+set(LUA_SOURCES
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lapi.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lcode.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lctype.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/ldebug.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/ldo.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/ldump.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lfunc.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lgc.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/llex.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lmem.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lobject.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lopcodes.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lparser.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lstate.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lstring.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/ltable.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/ltm.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lundump.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lvm.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lzio.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lauxlib.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lbaselib.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lcorolib.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/ldblib.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/liolib.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lmathlib.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/loslib.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lstrlib.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/ltablib.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lutf8lib.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/lloadlib.c
+    ${LEVI_PRELOADER_INCLUDE_DIR}/linit.c
+)
+
+# Buat library static menggunakan path dari include directory yang baru
+add_library(lua_static STATIC ${LUA_SOURCES})
+
+# Ekspos directory include agar file header Lua (.h) bisa diakses global
+target_include_directories(lua_static PUBLIC ${LEVI_PRELOADER_INCLUDE_DIR})
+
 
 get_filename_component(LEVI_PACKAGE_CONFIG_DIR "${LEVI_PACKAGE_CONFIG_DIR}" ABSOLUTE)
 set(LEVI_PACKAGE_CONFIG_JSON "${LEVI_PACKAGE_CONFIG_DIR}/config.json")
