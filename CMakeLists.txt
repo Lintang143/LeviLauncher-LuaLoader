@@ -12,7 +12,7 @@ set(MOD_NAME "LuaLoader" CACHE STRING "LeviLauncher mod display name")
 set(MOD_AUTHOR "Lintang143" CACHE STRING "LeviLauncher mod author")
 set(MOD_VERSION "0.0.1" CACHE STRING "LeviLauncher mod version")
 set(MOD_LIBRARY_NAME "lloader" CACHE STRING "Native library name without lib prefix or .so suffix")
-set(MOD_MINECRAFT_VERSIONS "[\"1.26.*\"]" CACHE STRING "Raw JSON array for manifest minecraft_versions")
+set(MOD_MINECRAFT_VERSIONS [*] CACHE STRING "Raw JSON array for manifest minecraft_versions")
 set(MOD_ICON "" CACHE STRING "Optional package-relative icon path, such as icon.png")
 
 # ==============================================================================
