@@ -81,7 +81,7 @@ bool ClangeMeMod::enable() {
     luaL_openlibs(L);
     pl::lua_binding::register_all_pl_modules(L);
 
-    std::filesystem::path modsPath = self.getDataDir() / "mods"; //[span_27](start_span)[span_27](end_span)
+    std::filesystem::path modsPath = self.getConfigDir() / "mods"; //[span_27](start_span)[span_27](end_span)
 
     if (std::filesystem::exists(modsPath)) {
         self.getLogger().info("[Lua Engine] Scanning Lua script files in: {}", modsPath.string());
